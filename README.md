@@ -2,6 +2,8 @@
 
 An intelligent legal document analysis tool powered by **Google Cloud Generative AI (Gemini)** that automatically classifies, analyzes, and explains legal documents in plain English.
 
+🚀 **Live Demo**: [https://legal-analyzer-app-production.up.railway.app/](https://legal-analyzer-app-production.up.railway.app/)
+
 ## 🌟 Features
 
 - **🤖 AI-Powered Analysis**: Uses Google's Gemini AI for intelligent document classification and analysis
@@ -10,76 +12,98 @@ An intelligent legal document analysis tool powered by **Google Cloud Generative
 - **🔍 Plain Language Translation**: Converts complex legal jargon into understandable explanations
 - **⚖️ Risk Assessment**: Identifies potential legal risks with severity levels (LOW/MEDIUM/HIGH/CRITICAL)
 - **💡 Actionable Recommendations**: Provides step-by-step guidance and suggestions
-- **🚀 Real-time Processing**: Fast analysis with fallback mock data when AI service is unavailable
+- **🚀 Real-time Processing**: Fast analysis with live AI processing
 - **🔒 Secure**: Temporary file processing with automatic cleanup
+- **🌐 Cloud Deployed**: Live on Railway with Python Flask backend
 
 ## 🏗️ Architecture
 
 ```
-Frontend (Static HTML/JS) ↔ Backend (Node.js) ↔ AI Service (Python + Google Gemini)
+Frontend (HTML/JS) ↔ Python Flask App (app.py) ↔ Google Gemini AI
 ```
 
-- **Frontend**: Static HTML pages served by Express.js
-- **Backend**: Node.js server (`static-server.js`) handling file uploads and API routing
-- **AI Service**: Python Flask service (`google_legal_analyzer.py`) with Google Cloud AI integration
+**Single Python Service Architecture:**
+- **Frontend**: Static HTML pages served directly by Flask
+- **Backend**: Python Flask service (`app.py`) handling both web serving and AI processing
+- **AI Service**: Integrated Google Cloud Generative AI (Gemini) within the Flask app
 
 ## 📋 Prerequisites
 
-- **Node.js** (v14 or higher)
-- **Python** (3.8 or higher)
+- **Python** (3.11 or higher)
 - **Google AI API Key** (from [Google AI Studio](https://makersuite.google.com/app/apikey))
 
 ## 🚀 Quick Start
 
 ### 1. Clone the Repository
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/DhruvChoudhary1/legal-analyzer-app.git
 cd legal-analyzer-app
 ```
 
-### 2. Set Up Python Environment
+### 2. Install Python Dependencies
 ```bash
-# Install Python dependencies
 pip install -r requirements.txt
 ```
 
-### 3. Set Up Node.js Environment
+### 3. Configure Environment Variables
+Create a `.env` file in the project root:
 ```bash
-# Navigate to backend directory
-cd backend
-
-# Install Node.js dependencies
-npm install
-```
-
-### 4. Configure Environment Variables
-Create a `.env` file in the `backend/` directory:
-```bash
-# backend/.env
+# .env
 GOOGLE_AI_API_KEY=your_google_ai_api_key_here
 ```
 
 **Get your API key from**: [Google AI Studio](https://makersuite.google.com/app/apikey)
 
-### 5. Start the Services
+### 4. Run the Application
+```bash
+python app.py
+```
 
-**Terminal 1 - Start Python AI Service:**
+### 5. Access the Application
+Open your browser and go to: **http://localhost:5001**
+
+## 📁 Project Structure
+
+```
+legal-analyzer-app/
+├── 📄 app.py                      # Main Flask application (Python + Google Gemini)
+├── 📄 requirements.txt            # Python dependencies
+├── 📄 runtime.txt                 # Python version for deployment
+├── 📄 .env.example               # Environment variables template
+├── 📄 .gitignore                 # Git ignore rules
+├── 📁 frontend/
+│   └── 📁 public/
+│       ├── 📄 index.html         # Landing page
+│       ├── 📄 start.html         # Upload page
+│       └── 📄 analysis.html      # Results page
+├── 📁 backend/                   # Legacy Node.js files (kept for reference)
+└── 📁 temp_uploads/              # Temporary file processing
+```
+
+# Install Python dependencies
+pip install -r requirements.txt
+```
+
+### 4. Configure Environment Variables
+Create a `.env` file in the project root:
+```bash
+# .env
+GOOGLE_AI_API_KEY=your_google_ai_api_key_here
+```
+
+**Get your API key from**: [Google AI Studio](https://makersuite.google.com/app/apikey)
+
+### 5. Start the Application
+
+**Single Command:**
 ```bash
 # From project root
-python google_legal_analyzer.py
+python app.py
 ```
-*AI service will run on: http://localhost:5001*
-
-**Terminal 2 - Start Node.js Backend:**
-```bash
-# From backend directory
-cd backend
-npm run static
-```
-*Web server will run on: http://localhost:5000*
+*Application will run on: http://localhost:5001*
 
 ### 6. Access the Application
-Open your browser and go to: **http://localhost:5000**
+Open your browser and go to: **http://localhost:5001**
 
 ## 📁 Project Structure
 
@@ -129,33 +153,25 @@ The AI can automatically detect and analyze:
 
 ## 🔧 API Endpoints
 
-### Backend Server (Port 5000)
-- `GET /` - Main application
-- `GET /api/test` - Backend health check
-- `GET /api/ai-status` - AI service status
-- `POST /api/upload` - Document upload and analysis
-
-### AI Service (Port 5001)
-- `GET /api/health` - AI service health check
-- `GET /api/test-ai` - Test AI connection
-- `POST /api/analyze` - Document analysis endpoint
+### Flask Application (app.py)
+- `GET /` - Main application (serves frontend)
+- `GET /<path:filename>` - Static file serving 
+- `GET /api/health` - Application health check
+- `GET /api/test-ai` - Test Google AI connection
+- `POST /api/analyze` - Document upload and analysis
 
 ## 🛠️ Development
 
 ### Running in Development Mode
 ```bash
-# Backend with auto-reload
-cd backend
-npm run static-dev
-
-# Python AI service with auto-reload
-python google_legal_analyzer.py
+# Run the Flask application
+python app.py
 ```
 
 ### Testing the Setup
-1. **Test Backend**: http://localhost:5000/api/test
-2. **Test AI Service**: http://localhost:5001/api/health
-3. **Test AI Connection**: http://localhost:5000/api/ai-status
+1. **Test Application**: http://localhost:5001/
+2. **Test Health Check**: http://localhost:5001/api/health
+3. **Test AI Connection**: http://localhost:5001/api/test-ai
 
 ## 🔒 Security Features
 
@@ -191,24 +207,30 @@ python google_legal_analyzer.py
 
 ### Common Issues
 
-1. **AI Service Not Available**
-   - Check if Python service is running on port 5001
+1. **Application Won't Start**
+   - Check if Python 3.11+ is installed: `python --version`
    - Verify Google AI API key in `.env` file
-   - Check firewall settings
+   - Install dependencies: `pip install -r requirements.txt`
 
 2. **File Upload Fails**
    - Ensure file is PDF, DOCX, or TXT format
    - Check file size is under 10MB
-   - Verify `uploads/` directory exists
+   - Verify `temp_uploads/` directory exists
 
-3. **Module Not Found Errors**
-   - Run `pip install -r requirements.txt`
-   - Run `npm install` in backend directory
+3. **AI Analysis Fails**
+   - Check Google AI API key is valid
+   - Test AI connection: `/api/test-ai` endpoint
+   - Check internet connectivity
 
 ### Error Messages
-- **"AI service unavailable"**: Python service not running or wrong port
-- **"Invalid API key"**: Check Google AI API key in `.env` file
+- **"Analyzer not initialized"**: Check Google AI API key in environment variables
+- **"AI connection failed"**: Verify API key and internet connection
 - **"File too large"**: Reduce file size to under 10MB
+
+### Local Development Issues
+- **Port 5001 already in use**: Change port in `app.py` or kill existing process
+- **Module not found**: Run `pip install -r requirements.txt`
+- **Permission denied**: Check file permissions for `temp_uploads/` directory
 
 ## 🤝 Contributing
 
@@ -236,80 +258,78 @@ If you encounter any issues or have questions:
 2. Review the [Google Cloud setup guide](GOOGLE_CLOUD_SETUP.md)
 3. Open an issue in the repository
 
-## 🚀 Deployment (Making Your Website Live)
+## 🚀 Deployment
 
-### **Option 1: Railway (Recommended - Easiest)**
+### **Live Deployment on Railway**
 
-Railway is perfect for full-stack apps with both Node.js and Python services.
+Your app is successfully deployed at: **https://legal-analyzer-app-production.up.railway.app/**
 
-**Steps:**
-1. **Sign up**: Go to [railway.app](https://railway.app) and sign up with GitHub
-2. **Deploy from GitHub**:
-   - Click "Deploy from GitHub repo"
-   - Select your `legal-analyzer-app` repository
-   - Railway will automatically detect both services
-3. **Configure Environment Variables**:
-   - In your Railway dashboard, go to Variables
-   - Add: `GOOGLE_AI_API_KEY=your_api_key_here`
-   - Add: `NODE_ENV=production`
-   - Add: `FLASK_ENV=production`
-4. **Deploy**: Railway handles everything automatically!
+### **Deploy Your Own Copy**
 
-**Your live URL**: `https://your-app-name.railway.app`
+**Option 1: Railway (Recommended)**
 
-### **Option 2: Render**
+1. **Fork this repository** on GitHub
+2. **Sign up** at [railway.app](https://railway.app) with GitHub
+3. **Create New Project** → Deploy from GitHub repo
+4. **Select your forked repository**
+5. **Set Environment Variables**:
+   ```
+   GOOGLE_AI_API_KEY=your_google_ai_api_key_here
+   FLASK_ENV=production
+   ```
+6. **Deploy!** Railway will automatically:
+   - Detect Python app from `requirements.txt` and `runtime.txt`
+   - Install dependencies
+   - Run `python app.py`
 
-**Steps:**
-1. **Sign up**: Go to [render.com](https://render.com)
-2. **Create Web Service**:
-   - Connect your GitHub repo
-   - Build Command: `cd backend && npm install`
-   - Start Command: `cd backend && node static-server.js`
-3. **Create Background Service** (for Python AI):
-   - Build Command: `pip install -r requirements.txt`
-   - Start Command: `python google_legal_analyzer.py`
-4. **Environment Variables**:
-   - Add `GOOGLE_AI_API_KEY` to both services
-   - Add `AI_SERVICE_URL` to web service pointing to your background service
+**Option 2: Other Platforms**
+
+The app includes standard deployment files:
+- `requirements.txt` - Python dependencies
+- `runtime.txt` - Python 3.11 specification
+- `app.py` - Main application entry point
+
+Deploy on: Render, Heroku, Google Cloud Run, or any Python hosting platform.
 
 ### **Environment Variables for Production**
 
-Set these in your deployment platform:
-
+Required environment variable:
 ```bash
-GOOGLE_AI_API_KEY=your_google_ai_api_key
-NODE_ENV=production
-FLASK_ENV=production
-PORT=5000
-AI_SERVICE_URL=https://your-ai-service-url.com
+GOOGLE_AI_API_KEY=your_google_ai_api_key_from_google_ai_studio
 ```
 
-### **Pre-Deployment Checklist**
+## 🤝 Contributing
 
-- ✅ All files committed to Git and pushed to GitHub
-- ✅ Google AI API key ready
-- ✅ Test locally: both services running
-- ✅ Check static files load correctly
-- ✅ Verify file upload functionality works
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
-### **Post-Deployment Testing**
+## 📄 License
 
-1. **Test your live website**: Visit your deployment URL
-2. **Check backend health**: `your-url.com/api/test`
-3. **Test AI service**: `your-url.com/api/ai-status`
-4. **Upload a test document**: Verify end-to-end functionality
+This project is licensed under the MIT License.
 
-### **Quick Deployment Commands**
+## 🙏 Acknowledgments
 
+- **Google Cloud AI** for providing the Gemini AI models
+- **Flask** for the lightweight Python web framework
+- **Railway** for seamless Python deployment platform
+- **PyPDF2** and **python-docx** for document processing
+
+## 📞 Support
+
+If you encounter any issues or have questions:
+1. Check the [troubleshooting section](#-troubleshooting)
+2. Test the live demo: [https://legal-analyzer-app-production.up.railway.app/](https://legal-analyzer-app-production.up.railway.app/)
+3. Open an issue in the repository
+
+Optional:
 ```bash
-# Commit your changes
-git add .
-git commit -m "Add deployment configuration"
-git push origin main
-
-# Then deploy on Railway or Render using their web interface
+FLASK_ENV=production
+PORT=5001
 ```
 
 ---
 
-**⚡ Built with Google Cloud Generative AI • Made for Legal Professionals and Everyone Else**
+**⚡ Built with Google Cloud Generative AI • Deployed on Railway • Pure Python Power**

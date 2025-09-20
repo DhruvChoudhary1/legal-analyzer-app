@@ -8,7 +8,7 @@ console.log('📅 Date:', new Date().toISOString());
 function startPythonService() {
     console.log('\n🐍 Starting Python AI Service (google_legal_analyzer.py)...');
     
-    const pythonProcess = spawn('python', ['google_legal_analyzer.py'], {
+    const pythonProcess = spawn('python3', ['google_legal_analyzer.py'], {
         stdio: 'inherit',
         cwd: process.cwd()
     });

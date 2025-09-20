@@ -6,7 +6,7 @@
     "start": "bash start.sh",
     "dev": "node app.js",
     "backend-only": "cd backend && node static-server.js",
-    "ai-only": "python google_legal_analyzer.py"
+    "ai-only": "python3 google_legal_analyzer.py"
   },
   "dependencies": {
     "cors": "^2.8.5",

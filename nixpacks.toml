@@ -1,0 +1,8 @@
+[phases.build]
+cmds = ["pip install -r requirements.txt"]
+
+[phases.start]
+cmd = "python google_legal_analyzer.py"
+
+[variables]
+FLASK_ENV = "production"

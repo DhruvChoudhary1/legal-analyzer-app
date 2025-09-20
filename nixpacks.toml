@@ -1,11 +1,14 @@
 [providers]
 python = "3.11"
 
-[phases.build]
+[phases.setup]
+cmds = ["pip install --upgrade pip"]
+
+[phases.install]
 cmds = ["pip install -r requirements.txt"]
 
 [phases.start]
-cmd = "python google_legal_analyzer.py"
+cmd = "python main.py"
 
 [variables]
 FLASK_ENV = "production"

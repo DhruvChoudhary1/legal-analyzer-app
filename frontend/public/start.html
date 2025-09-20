@@ -471,7 +471,7 @@
         }, 30000);
           // Send to backend for processing
         const baseURL = window.location.origin; // Use current domain
-        const response = await fetch(`${baseURL}/api/upload`, {
+        const response = await fetch(`${baseURL}/api/analyze`, {
           method: 'POST',
           body: formData,
           signal: controller.signal
@@ -500,13 +500,12 @@
         
       } catch (error) {
         console.error('Upload error:', error);
-        
-        if (error.name === 'AbortError') {
+          if (error.name === 'AbortError') {
           showError('Connection timeout. The server is not responding.');
-          showDebugInfo('The backend server is not running or not accessible. Please make sure your Node.js server is running on http://localhost:5000');
+          showDebugInfo(`The backend server is not responding. Current API endpoint: ${window.location.origin}/api/analyze`);
         } else {
           showError(error.message || 'Error uploading file. Please try again.');
-          showDebugInfo('Failed to connect to backend server. Make sure your backend is running on http://localhost:5000');
+          showDebugInfo(`Failed to connect to backend server. Current API endpoint: ${window.location.origin}/api/analyze`);
         }
         
         // Offer demo mode as fallback
@@ -523,7 +522,7 @@
         const timeoutId = setTimeout(() => controller.abort(), 3000); // 3 second timeout
         
         const baseURL = window.location.origin; // Use current domain
-        const response = await fetch(`${baseURL}/api/test`, {
+        const response = await fetch(`${baseURL}/api/test-ai`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json'
@@ -542,10 +541,9 @@
         }
       } catch (error) {
         if (error.name === 'AbortError') {
-          showDebugInfo('Backend server is not responding. It may not be running.');
-        } else {
+          showDebugInfo('Backend server is not responding. It may not be running.');        } else {
           console.error('Backend connection failed:', error);
-          showDebugInfo('Cannot connect to backend server. Make sure your Node.js server is running on http://localhost:5000');
+          showDebugInfo(`Cannot connect to backend server. Current API endpoint: ${window.location.origin}/api/health`);
         }
       }
     }

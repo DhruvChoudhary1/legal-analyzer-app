@@ -1,0 +1,22 @@
+{
+  "name": "legal-analyzer-app",
+  "version": "1.0.0",
+  "description": "AI-powered legal document analyzer using Google Cloud Gemini",
+  "main": "backend/static-server.js",
+  "scripts": {
+    "start": "cd backend && node static-server.js",
+    "build": "cd backend && npm install",
+    "dev": "concurrently \"cd backend && npm run static-dev\" \"python google_legal_analyzer.py\"",
+    "install-all": "cd backend && npm install && pip install -r requirements.txt",
+    "ai-service": "python google_legal_analyzer.py"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "keywords": ["legal", "ai", "document-analysis", "google-cloud", "gemini"],
+  "author": "Dhruv Choudhary",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

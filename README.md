@@ -236,6 +236,80 @@ If you encounter any issues or have questions:
 2. Review the [Google Cloud setup guide](GOOGLE_CLOUD_SETUP.md)
 3. Open an issue in the repository
 
+## 🚀 Deployment (Making Your Website Live)
+
+### **Option 1: Railway (Recommended - Easiest)**
+
+Railway is perfect for full-stack apps with both Node.js and Python services.
+
+**Steps:**
+1. **Sign up**: Go to [railway.app](https://railway.app) and sign up with GitHub
+2. **Deploy from GitHub**:
+   - Click "Deploy from GitHub repo"
+   - Select your `legal-analyzer-app` repository
+   - Railway will automatically detect both services
+3. **Configure Environment Variables**:
+   - In your Railway dashboard, go to Variables
+   - Add: `GOOGLE_AI_API_KEY=your_api_key_here`
+   - Add: `NODE_ENV=production`
+   - Add: `FLASK_ENV=production`
+4. **Deploy**: Railway handles everything automatically!
+
+**Your live URL**: `https://your-app-name.railway.app`
+
+### **Option 2: Render**
+
+**Steps:**
+1. **Sign up**: Go to [render.com](https://render.com)
+2. **Create Web Service**:
+   - Connect your GitHub repo
+   - Build Command: `cd backend && npm install`
+   - Start Command: `cd backend && node static-server.js`
+3. **Create Background Service** (for Python AI):
+   - Build Command: `pip install -r requirements.txt`
+   - Start Command: `python google_legal_analyzer.py`
+4. **Environment Variables**:
+   - Add `GOOGLE_AI_API_KEY` to both services
+   - Add `AI_SERVICE_URL` to web service pointing to your background service
+
+### **Environment Variables for Production**
+
+Set these in your deployment platform:
+
+```bash
+GOOGLE_AI_API_KEY=your_google_ai_api_key
+NODE_ENV=production
+FLASK_ENV=production
+PORT=5000
+AI_SERVICE_URL=https://your-ai-service-url.com
+```
+
+### **Pre-Deployment Checklist**
+
+- ✅ All files committed to Git and pushed to GitHub
+- ✅ Google AI API key ready
+- ✅ Test locally: both services running
+- ✅ Check static files load correctly
+- ✅ Verify file upload functionality works
+
+### **Post-Deployment Testing**
+
+1. **Test your live website**: Visit your deployment URL
+2. **Check backend health**: `your-url.com/api/test`
+3. **Test AI service**: `your-url.com/api/ai-status`
+4. **Upload a test document**: Verify end-to-end functionality
+
+### **Quick Deployment Commands**
+
+```bash
+# Commit your changes
+git add .
+git commit -m "Add deployment configuration"
+git push origin main
+
+# Then deploy on Railway or Render using their web interface
+```
+
 ---
 
 **⚡ Built with Google Cloud Generative AI • Made for Legal Professionals and Everyone Else**

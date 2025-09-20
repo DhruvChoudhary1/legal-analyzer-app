@@ -18,9 +18,13 @@ except ImportError:
     GOOGLE_AI_AVAILABLE = False
     print("Warning: Google AI libraries not installed. Install with: pip install google-generativeai")
 
-# Load environment variables from backend/.env file
+# Load environment variables
+# Try backend/.env first (local development), then system environment (production)
 backend_env_path = Path(__file__).parent / "backend" / ".env"
-load_dotenv(dotenv_path=backend_env_path)
+if backend_env_path.exists():
+    load_dotenv(dotenv_path=backend_env_path)
+else:
+    load_dotenv()  # Load from system environment in production
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -717,12 +721,16 @@ def test_ai():
         }), 500
 
 if __name__ == '__main__':
+    # Get port from environment variable (for production deployment) or default to 5001
+    port = int(os.getenv('PORT', 5001))
+    debug_mode = os.getenv('FLASK_ENV') != 'production'
+    
     if analyzer:
         logger.info("Starting Google Cloud Legal Document Analyzer API...")
-        logger.info("API will be available at: http://localhost:5001")
-        logger.info("Health check: http://localhost:5001/api/health")
-        logger.info("Test AI: http://localhost:5001/api/test-ai")
-        app.run(host='0.0.0.0', port=5001, debug=True)
+        logger.info(f"API will be available at: http://localhost:{port}")
+        logger.info(f"Health check: http://localhost:{port}/api/health")
+        logger.info(f"Test AI: http://localhost:{port}/api/test-ai")
+        app.run(host='0.0.0.0', port=port, debug=debug_mode)
     else:
         logger.error("Cannot start server - analyzer initialization failed")
         print("\nSetup Instructions:")

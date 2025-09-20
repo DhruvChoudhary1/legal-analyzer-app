@@ -6,7 +6,10 @@ const fs = require('fs');
 const FormData = require('form-data');
 
 const app = express();
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
+
+// AI service URL - use environment variable in production
+const AI_SERVICE_URL = process.env.AI_SERVICE_URL || 'http://localhost:5001';
 
 // Import fetch for Node.js (using dynamic import)
 let fetch;
@@ -75,8 +78,7 @@ app.get('/api/ai-status', async (req, res) => {
 
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 5000);
-    
-    const healthResponse = await fetch('http://localhost:5001/api/health', {
+      const healthResponse = await fetch(`${AI_SERVICE_URL}/api/health`, {
       signal: controller.signal
     });
     
@@ -141,8 +143,7 @@ app.post('/api/upload', upload.single('document'), async (req, res) => {
       // Check if Python AI service is available with timeout
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 5000);
-      
-      const healthResponse = await fetch('http://localhost:5001/api/health', {
+        const healthResponse = await fetch(`${AI_SERVICE_URL}/api/health`, {
         signal: controller.signal,
         timeout: 5000
       });
@@ -160,13 +161,11 @@ app.post('/api/upload', upload.single('document'), async (req, res) => {
       formData.append('document', fs.createReadStream(req.file.path), {
         filename: req.file.originalname,
         contentType: req.file.mimetype
-      });
-
-      // Send file to Python AI service for analysis
+      });      // Send file to Python AI service for analysis
       const analysisController = new AbortController();
       const analysisTimeoutId = setTimeout(() => analysisController.abort(), 120000); // 2 minute timeout
 
-      const analysisResponse = await fetch('http://localhost:5001/api/analyze', {
+      const analysisResponse = await fetch(`${AI_SERVICE_URL}/api/analyze`, {
         method: 'POST',
         body: formData,
         headers: formData.getHeaders(),

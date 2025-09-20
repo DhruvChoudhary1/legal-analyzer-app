@@ -1,0 +1,18 @@
+version: 2
+
+services:
+  web:
+    buildCommand: npm install
+    startCommand: node backend/static-server.js
+    environment:
+      NODE_ENV: production
+    variables:
+      PORT: ${{PORT}}
+      
+  worker:
+    buildCommand: pip install -r requirements.txt
+    startCommand: python google_legal_analyzer.py
+    environment:
+      FLASK_ENV: production
+    variables:
+      PORT: 5001

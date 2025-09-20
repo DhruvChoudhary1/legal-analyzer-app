@@ -2,13 +2,20 @@
   "name": "legal-analyzer-app",
   "version": "1.0.0",
   "description": "AI-powered legal document analyzer using Google Cloud Gemini",
-  "main": "backend/static-server.js",
-  "scripts": {
-    "start": "cd backend && node static-server.js",
-    "build": "cd backend && npm install",
+  "main": "backend/static-server.js",  "scripts": {
+    "start": "node backend/static-server.js",
+    "build": "npm install",
     "dev": "concurrently \"cd backend && npm run static-dev\" \"python google_legal_analyzer.py\"",
     "install-all": "cd backend && npm install && pip install -r requirements.txt",
     "ai-service": "python google_legal_analyzer.py"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.6.1",
+    "express": "^4.21.2",
+    "form-data": "^4.0.4",
+    "multer": "^1.4.5-lts.1",
+    "node-fetch": "^3.3.2"
   },
   "engines": {
     "node": ">=14.0.0"

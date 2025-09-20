@@ -5,4 +5,4 @@ build:
     - pip install -r requirements.txt
 
 deploy:
-  startCommand: cd backend && node static-server.js
+  startCommand: node railway-server.js

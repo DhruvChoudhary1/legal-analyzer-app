@@ -1,9 +1,9 @@
 {
   "name": "legal-analyzer-app",
   "version": "1.0.0",
-  "description": "AI-powered legal document analyzer using Google Cloud Gemini",  "main": "backend/static-server.js",
+  "description": "AI-powered legal document analyzer using Google Cloud Gemini",  "main": "railway-server.js",
   "scripts": {
-    "start": "cd backend && node static-server.js",
+    "start": "node railway-server.js",
     "build": "cd backend && npm install",
     "dev": "concurrently \"cd backend && node static-server.js\" \"python google_legal_analyzer.py\"",
     "backend": "cd backend && node static-server.js",

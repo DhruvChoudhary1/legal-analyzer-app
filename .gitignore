@@ -49,6 +49,8 @@ temp_uploads/
 *.doc
 *.docx
 *.txt
+!requirements.txt
+!runtime.txt
 /backend/uploads/*
 !/backend/uploads/.gitkeep
 

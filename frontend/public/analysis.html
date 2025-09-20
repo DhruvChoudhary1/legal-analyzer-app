@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Document Analysis Results</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Open+Sans:wght@400;500;600&display=swap');
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body, html {
+    min-height: 100%;
+    font-family: 'Open Sans', sans-serif;
+    background: linear-gradient(135deg, #1a2035, #2a2f4a, #3a3f5b);
+    color: #f2f4f7;
+    padding: 20px;
+    position: relative;
+  }
+
+  /* Animated background elements */
+  .bg-shapes {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+  }
+
+  .shape {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.1;
+    animation: float 15s infinite linear;
+  }
+
+  .shape-1 {
+    width: 300px;
+    height: 300px;
+    background: linear-gradient(45deg, #06b6d4, #3b82f6);
+    top: -150px;
+    left: -150px;
+    animation-delay: 0s;
+  }
+
+  .shape-2 {
+    width: 200px;
+    height: 200px;
+    background: linear-gradient(45deg, #3b82f6, #8b5cf6);
+    bottom: -100px;
+    right: 10%;
+    animation-delay: -5s;
+  }
+
+  .shape-3 {
+    width: 150px;
+    height: 150px;
+    background: linear-gradient(45deg, #8b5cf6, #ec4899);
+    top: 20%;
+    right: -75px;
+    animation-delay: -10s;
+  }
+
+  @keyframes float {
+    0% {
+      transform: translate(0, 0) rotate(0deg);
+    }
+    50% {
+      transform: translate(10px, 10px) rotate(180deg);
+    }
+    100% {
+      transform: translate(0, 0) rotate(360deg);
+    }
+  }
+
+  .container {
+    background: rgba(28, 30, 44, 0.85);
+    backdrop-filter: blur(10px);
+    max-width: 900px;
+    border-radius: 24px;
+    box-shadow: 0 20px 50px rgba(12, 15, 37, 0.7);
+    padding: 50px 40px;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    z-index: 1;
+    animation: containerFadeIn 1s ease-out;
+    margin: 0 auto;
+  }
+
+  .container::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
+    transform: rotate(30deg);
+    z-index: -1;
+  }
+
+  @keyframes containerFadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+    font-size: 2.8rem;
+    margin-bottom: 30px;
+    background: linear-gradient(90deg, #56ccf2, #3b82f6, #9b87f5);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    letter-spacing: 0.03em;
+    line-height: 1.2;
+    position: relative;
+    display: inline-block;
+    text-align: center;
+    width: 100%;
+  }
+
+  h1::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 25%;
+    width: 50%;
+    height: 4px;
+    background: linear-gradient(90deg, transparent, #56ccf2, transparent);
+    border-radius: 2px;
+  }
+
+  .results-container {
+    text-align: left;
+  }
+
+  .result-section {
+    margin-bottom: 25px;
+    padding: 25px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    border-left: 5px solid #56ccf2;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .result-section:hover {
+    background: rgba(255, 255, 255, 0.12);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  }
+
+  .result-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #56ccf2, #3b82f6, #9b87f5);
+    opacity: 0.6;
+  }
+
+  .result-section h3 {
+    color: #56ccf2;
+    margin-bottom: 18px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .result-section h3 i {
+    font-size: 1.3rem;
+    color: #3b82f6;
+    background: rgba(59, 130, 246, 0.2);
+    padding: 8px;
+    border-radius: 8px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .result-section p {
+    line-height: 1.8;
+    margin-bottom: 15px;
+    font-size: 1.05rem;
+    color: #e2e8f0;
+    text-align: justify;
+    hyphens: auto;
+  }
+
+  .result-section ul {
+    padding-left: 0;
+    list-style: none;
+  }
+
+  .result-section li {
+    margin-bottom: 15px;
+    line-height: 1.7;
+    padding: 12px 18px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    border-left: 3px solid #3b82f6;
+    position: relative;
+    font-size: 1.02rem;
+    color: #f1f5f9;
+  }
+
+  .result-section li::before {
+    content: '▶';
+    color: #3b82f6;
+    font-weight: bold;
+    position: absolute;
+    left: -5px;
+    top: 12px;
+  }
+
+  .result-section li:nth-child(even) {
+    background: rgba(59, 130, 246, 0.08);
+    border-left-color: #56ccf2;
+  }
+
+  .result-section li:nth-child(odd) {
+    background: rgba(139, 92, 246, 0.08);
+    border-left-color: #9b87f5;
+  }
+
+  /* Special styling for important sections */
+  .document-type-badge {
+    background: linear-gradient(135deg, #06b6d4, #3b82f6, #8b5cf6) !important;
+    color: white !important;
+    text-align: center;
+    border: none !important;
+    box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+  }
+
+  .document-type-badge h3 {
+    color: white !important;
+    font-size: 1.6rem;
+    margin-bottom: 10px;
+  }
+
+  .document-type-badge p {
+    color: rgba(255, 255, 255, 0.9) !important;
+    font-size: 1.1rem;
+    margin: 0;
+  }
+
+  .summary-section {
+    border-left-color: #10b981 !important;
+  }
+
+  .summary-section h3 i {
+    background: rgba(16, 185, 129, 0.2) !important;
+    color: #10b981 !important;
+  }
+
+  .legal-section {
+    border-left-color: #f59e0b !important;
+  }
+
+  .legal-section h3 i {
+    background: rgba(245, 158, 11, 0.2) !important;
+    color: #f59e0b !important;
+  }
+
+  .risks-section {
+    border-left-color: #ef4444 !important;
+  }
+
+  .risks-section h3 i {
+    background: rgba(239, 68, 68, 0.2) !important;
+    color: #ef4444 !important;
+  }
+
+  .recommendations-section {
+    border-left-color: #8b5cf6 !important;
+  }
+
+  .recommendations-section h3 i {
+    background: rgba(139, 92, 246, 0.2) !important;
+    color: #8b5cf6 !important;
+  }
+
+  .metadata-section {
+    background: rgba(255, 255, 255, 0.03) !important;
+    border-left-color: #6b7280 !important;
+  }
+
+  .metadata-section h3 i {
+    background: rgba(107, 114, 128, 0.2) !important;
+    color: #6b7280 !important;
+  }
+
+  /* Content formatting */
+  .content-box {
+    padding: 5px 0;
+  }
+
+  .item-number {
+    color: #3b82f6;
+    font-weight: bold;
+    margin-right: 8px;
+  }
+
+  .severity {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    margin-left: 10px;
+  }
+
+  .severity-critical {
+    background: rgba(239, 68, 68, 0.2);
+    color: #fca5a5;
+    border: 1px solid rgba(239, 68, 68, 0.4);
+  }
+
+  .severity-high {
+    background: rgba(245, 158, 11, 0.2);
+    color: #fbbf24;
+    border: 1px solid rgba(245, 158, 11, 0.4);
+  }
+
+  .severity-medium {
+    background: rgba(59, 130, 246, 0.2);
+    color: #93c5fd;
+    border: 1px solid rgba(59, 130, 246, 0.4);
+  }
+
+  .severity-low {
+    background: rgba(16, 185, 129, 0.2);
+    color: #6ee7b7;
+    border: 1px solid rgba(16, 185, 129, 0.4);
+  }
+
+  .explanation {
+    color: #cbd5e1;
+    font-style: italic;
+    font-size: 0.95rem;
+  }
+
+  .action {
+    color: #a7f3d0;
+    font-weight: 500;
+  }
+
+  .importance {
+    color: #fbbf24;
+    font-weight: 500;
+  }
+
+  .metadata-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-top: 10px;
+  }
+
+  .metadata-item {
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    border-left: 3px solid #6b7280;
+  }
+
+  .status-complete {
+    color: #10b981;
+    font-weight: bold;
+  }
+
+  .json-display {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    padding: 15px;
+    margin: 10px 0;
+    overflow-x: auto;
+  }
+
+  .json-display pre {
+    color: #e2e8f0;
+    font-size: 0.9rem;
+    margin: 0;
+    white-space: pre-wrap;
+  }
+
+  .action-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 40px;
+  }
+
+  .action-btn {
+    background: linear-gradient(90deg, #06b6d4, #3b82f6);
+    padding: 15px 35px;
+    font-size: 1.1rem;
+    border: none;
+    border-radius: 30px;
+    color: white;
+    font-weight: 600;
+    box-shadow: 0 6px 20px rgba(6, 182, 212, 0.5);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .action-btn:hover {
+    background: linear-gradient(90deg, #3b82f6, #06b6d4);
+    box-shadow: 0 8px 25px rgba(59, 130, 246, 0.6);
+    transform: translateY(-2px);
+  }
+
+  .back-btn {
+    margin-top: 25px;
+    display: inline-block;
+    color: #94a3b8;
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: color 0.3s ease;
+  }
+
+  .back-btn:hover {
+    color: #56ccf2;
+  }
+
+  .error-message {
+    background: rgba(239, 68, 68, 0.2);
+    border: 1px solid rgba(239, 68, 68, 0.5);
+    color: #fecaca;
+    padding: 20px;
+    border-radius: 8px;
+    margin: 20px 0;
+    text-align: center;
+  }
+
+  @media (max-width: 768px) {
+    .container {
+      padding: 40px 30px;
+      border-radius: 20px;
+    }
+
+    h1 {
+      font-size: 2.3rem;
+    }
+
+    .result-section {
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .result-section h3 {
+      font-size: 1.3rem;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    .result-section h3 i {
+      width: 35px;
+      height: 35px;
+      font-size: 1.1rem;
+    }
+
+    .metadata-grid {
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    .action-buttons {
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .action-btn {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .container {
+      padding: 30px 25px;
+    }
+
+    h1 {
+      font-size: 2rem;
+    }
+
+    .result-section {
+      padding: 15px;
+    }
+
+    .result-section h3 {
+      font-size: 1.2rem;
+    }
+
+    .result-section li {
+      padding: 10px 15px;
+      font-size: 0.95rem;
+    }
+
+    .severity {
+      display: block;
+      margin: 5px 0;
+      text-align: center;
+    }
+  }
+</style>
+</head>
+<body>
+  <div class="bg-shapes">
+    <div class="shape shape-1"></div>
+    <div class="shape shape-2"></div>
+    <div class="shape shape-3"></div>
+  </div>
+  
+  <div class="container">
+    <h1>Document Analysis Results</h1>
+    
+    <div id="resultsContainer">
+      <div class="error-message" id="errorMessage" style="display: none;">
+        <i class="fas fa-exclamation-circle"></i>
+        <span id="errorText"></span>
+      </div>
+      
+      <div id="analysisResults"></div>
+      
+      <div class="action-buttons">
+        <button class="action-btn" onclick="analyzeAnother()">
+          <i class="fas fa-plus"></i> Analyze Another Document
+        </button>
+        <button class="action-btn" onclick="window.print()">
+          <i class="fas fa-print"></i> Print Results
+        </button>
+      </div>
+    </div>
+    
+    <div style="text-align: center; margin-top: 30px;">
+      <a href="index.html" class="back-btn">
+        <i class="fas fa-arrow-left"></i> Back to Home
+      </a>
+    </div>
+  </div>
+
+  <script>
+    // Load and display analysis results
+    document.addEventListener('DOMContentLoaded', function() {
+      const analysisData = localStorage.getItem('analysisData');
+      
+      if (!analysisData) {
+        showError('No analysis data found. Please upload a document first.');
+        return;
+      }
+      
+      try {
+        const analysis = JSON.parse(analysisData);
+        displayAnalysisResults(analysis);
+      } catch (error) {
+        console.error('Error parsing analysis data:', error);
+        showError('Error displaying analysis results. Please try again.');
+      }
+    });
+
+    function displayAnalysisResults(analysis) {
+      const resultsContainer = document.getElementById('analysisResults');
+      
+      // Get document type for specialized display
+      const docType = analysis.detectedDocumentType || 'general';
+      const analysisType = analysis.analysisMetadata?.analysisType || 'standard';
+      
+      let html = '';
+      
+      // Add document type badge
+      if (analysis.detectedDocumentType) {
+        html += `
+          <div class="result-section document-type-badge">
+            <h3><i class="fas fa-file-alt"></i> Document Type: ${analysis.detectedDocumentType.replace('_', ' ').toUpperCase()}</h3>
+            <p>Analysis customized for ${analysis.detectedDocumentType.replace('_', ' ')} documents</p>
+          </div>
+        `;
+      }
+      
+      // Document Type (if different from detected type)
+      if (analysis.documentType && analysis.documentType !== analysis.detectedDocumentType) {
+        html += `
+          <div class="result-section">
+            <h3><i class="fas fa-file-contract"></i> Specific Document Type</h3>
+            <div class="content-box">
+              <p><strong>${analysis.documentType}</strong></p>
+            </div>
+          </div>
+        `;
+      }
+      
+      // Summary with enhanced formatting
+      if (analysis.summary) {
+        html += `
+          <div class="result-section summary-section">
+            <h3><i class="fas fa-list-alt"></i> Executive Summary</h3>
+            <div class="content-box">
+              <p>${formatLongText(analysis.summary)}</p>
+            </div>
+          </div>
+        `;
+      }
+
+      // Dynamic fields based on document type
+      const fieldMappings = {
+        // Contract-specific fields
+        'keyTerms': { icon: 'fas fa-handshake', title: 'Key Terms' },
+        'obligations': { icon: 'fas fa-tasks', title: 'Obligations' },
+        'deliverables': { icon: 'fas fa-shipping-fast', title: 'Deliverables' },
+        'timeline': { icon: 'fas fa-clock', title: 'Timeline' },
+        
+        // NDA-specific fields
+        'confidentialInfo': { icon: 'fas fa-lock', title: 'Confidential Information' },
+        'restrictions': { icon: 'fas fa-ban', title: 'Restrictions' },
+        'duration': { icon: 'fas fa-hourglass-half', title: 'Duration' },
+        'exceptions': { icon: 'fas fa-unlock', title: 'Exceptions' },
+        'returnRequirements': { icon: 'fas fa-undo', title: 'Return Requirements' },
+        
+        // Will-specific fields
+        'testator': { icon: 'fas fa-user', title: 'Testator' },
+        'executor': { icon: 'fas fa-user-tie', title: 'Executor' },
+        'beneficiaries': { icon: 'fas fa-users', title: 'Beneficiaries' },
+        'assets': { icon: 'fas fa-coins', title: 'Assets' },
+        'bequests': { icon: 'fas fa-gift', title: 'Bequests' },
+        'guardianship': { icon: 'fas fa-shield-alt', title: 'Guardianship' },
+        
+        // Lease-specific fields
+        'property': { icon: 'fas fa-home', title: 'Property' },
+        'rentAmount': { icon: 'fas fa-dollar-sign', title: 'Rent Amount' },
+        'leaseTerm': { icon: 'fas fa-calendar', title: 'Lease Term' },
+        'responsibilities': { icon: 'fas fa-clipboard-list', title: 'Responsibilities' },
+        'securityDeposit': { icon: 'fas fa-piggy-bank', title: 'Security Deposit' },
+        
+        // Employment-specific fields
+        'position': { icon: 'fas fa-briefcase', title: 'Position' },
+        'salary': { icon: 'fas fa-money-bill-wave', title: 'Salary' },
+        'benefits': { icon: 'fas fa-heart', title: 'Benefits' },
+        'duties': { icon: 'fas fa-list-check', title: 'Duties' },
+        'workingConditions': { icon: 'fas fa-building', title: 'Working Conditions' },
+        'nonCompete': { icon: 'fas fa-balance-scale', title: 'Non-Compete' },
+        
+        // Judgment-specific fields
+        'court': { icon: 'fas fa-university', title: 'Court' },
+        'caseNumber': { icon: 'fas fa-hashtag', title: 'Case Number' },
+        'legalIssues': { icon: 'fas fa-question-circle', title: 'Legal Issues' },
+        'facts': { icon: 'fas fa-file-alt', title: 'Facts' },
+        'legalPrinciples': { icon: 'fas fa-book', title: 'Legal Principles' },
+        'ratio': { icon: 'fas fa-gavel', title: 'Ratio Decidendi' },
+        'ruling': { icon: 'fas fa-balance-scale', title: 'Court Ruling' },
+        'precedents': { icon: 'fas fa-history', title: 'Precedents' },
+        'implications': { icon: 'fas fa-lightbulb', title: 'Legal Implications' },
+        
+        // Affidavit-specific fields
+        'deponent': { icon: 'fas fa-user-edit', title: 'Deponent' },
+        'purpose': { icon: 'fas fa-target', title: 'Purpose' },
+        'statements': { icon: 'fas fa-quote-right', title: 'Key Statements' },
+        'verification': { icon: 'fas fa-check-circle', title: 'Verification' },
+        'notarization': { icon: 'fas fa-stamp', title: 'Notarization' },
+        'jurisdiction': { icon: 'fas fa-map-marker-alt', title: 'Jurisdiction' },
+        'consequences': { icon: 'fas fa-exclamation-triangle', title: 'Legal Consequences' },
+        'credibilityFactors': { icon: 'fas fa-medal', title: 'Credibility Factors' },
+        'legalWeight': { icon: 'fas fa-balance-scale', title: 'Legal Weight' },
+        
+        // Enhanced demystification fields
+        'hiddenClauses': { icon: 'fas fa-eye', title: 'Hidden Clauses' },
+        'redFlags': { icon: 'fas fa-flag', title: 'Red Flags' },
+        'opportunities': { icon: 'fas fa-star', title: 'Opportunities' },
+        'loopholes': { icon: 'fas fa-unlock', title: 'Potential Loopholes' },
+        'futureImpact': { icon: 'fas fa-crystal-ball', title: 'Future Impact' },
+        'keyTakeaways': { icon: 'fas fa-key', title: 'Key Takeaways' },
+        
+        // General fields
+        'keyPoints': { icon: 'fas fa-key', title: 'Key Points' },
+        'parties': { icon: 'fas fa-users', title: 'Parties Involved' },
+        'importantDates': { icon: 'fas fa-calendar-alt', title: 'Important Dates' },
+        'paymentTerms': { icon: 'fas fa-money-bill-wave', title: 'Financial Terms' },
+        'financialTerms': { icon: 'fas fa-money-bill-wave', title: 'Financial Terms' },
+        'legalObligations': { icon: 'fas fa-gavel', title: 'Legal Obligations' },
+        'terminationClauses': { icon: 'fas fa-times-circle', title: 'Termination Clauses' },
+        'disputeResolution': { icon: 'fas fa-balance-scale', title: 'Dispute Resolution' },
+        'governingLaw': { icon: 'fas fa-university', title: 'Governing Law' },
+        'confidentialityProvisions': { icon: 'fas fa-user-secret', title: 'Confidentiality' },
+        'risks': { icon: 'fas fa-exclamation-triangle', title: 'Potential Risks' },
+        'recommendations': { icon: 'fas fa-lightbulb', title: 'Recommendations' }
+      };
+
+      // Display fields dynamically
+      Object.keys(analysis).forEach(key => {
+        if (key.startsWith('analysis') || key === 'detectedDocumentType' || key === 'documentType' || key === 'summary') {
+          return; // Skip metadata and already displayed fields
+        }
+        
+        const fieldInfo = fieldMappings[key];
+        const value = analysis[key];
+        
+        if (value && fieldInfo) {
+          // Determine section class based on field type
+          let sectionClass = '';
+          if (key === 'risks') sectionClass = 'risks-section';
+          else if (key === 'recommendations') sectionClass = 'recommendations-section';
+          else if (['legalIssues', 'legalPrinciples', 'ratio', 'implications'].includes(key)) sectionClass = 'legal-section';
+          
+          html += `
+            <div class="result-section ${sectionClass}">
+              <h3><i class="${fieldInfo.icon}"></i> ${fieldInfo.title}</h3>
+              <div class="content-box">
+          `;
+          
+          if (Array.isArray(value) && value.length > 0) {
+            // Check if array contains objects or strings
+            const hasObjects = value.some(item => typeof item === 'object' && item !== null);
+            
+            if (hasObjects) {
+              // Display structured objects
+              html += `<ul>`;
+              value.forEach(item => {
+                if (typeof item === 'object') {
+                  html += `<li>
+                    <strong>${item.description || item.item || item.title || 'Item'}</strong>
+                    ${item.severity ? `<span class="severity severity-${item.severity.toLowerCase()}">${item.severity}</span>` : ''}
+                    ${item.explanation ? `<br><span class="explanation">${item.explanation}</span>` : ''}
+                    ${item.action ? `<br><span class="action">Action: ${item.action}</span>` : ''}
+                    ${item.importance ? `<br><span class="importance">Importance: ${item.importance}</span>` : ''}
+                  </li>`;
+                } else {
+                  html += `<li>${item}</li>`;
+                }
+              });
+              html += `</ul>`;
+            } else {
+              // Simple string array
+              html += `<ul>`;
+              value.forEach((item, index) => {
+                html += `<li><span class="item-number">${index + 1}.</span> ${formatListItem(item)}</li>`;
+              });
+              html += `</ul>`;
+            }
+          } else if (typeof value === 'string' && value.trim()) {
+            html += `<p>${formatLongText(value)}</p>`;
+          } else if (typeof value === 'object') {
+            html += `<div class="json-display"><pre>${JSON.stringify(value, null, 2)}</pre></div>`;
+          }
+          
+          html += `</div></div>`;
+        }
+      });
+      
+      // Add analysis metadata if available
+      if (analysis.analysisMetadata) {
+        html += `
+          <div class="result-section metadata-section">
+            <h3><i class="fas fa-info-circle"></i> Analysis Information</h3>
+            <div class="content-box">
+              <div class="metadata-grid">
+                <div class="metadata-item">
+                  <strong>Analysis Type:</strong> ${analysisType.replace('_', ' ').toUpperCase()}
+                </div>
+                <div class="metadata-item">
+                  <strong>AI Model:</strong> ${analysis.analysisMetadata.aiModel || 'Google Gemini'}
+                </div>
+                <div class="metadata-item">
+                  <strong>Document Length:</strong> ${formatNumber(analysis.analysisMetadata.documentLength || 0)} characters
+                </div>
+                <div class="metadata-item">
+                  <strong>Processing Status:</strong> <span class="status-complete">✓ Completed</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+      
+      resultsContainer.innerHTML = html;
+    }
+
+    // Helper function to format long text with better readability
+    function formatLongText(text) {
+      if (!text) return '';
+      
+      // Add line breaks for better readability
+      return text
+        .replace(/\. /g, '.<br><br>')
+        .replace(/; /g, ';<br>')
+        .replace(/: /g, ':<br>')
+        .replace(/\n/g, '<br>')
+        .trim();
+    }
+
+    // Helper function to format list items
+    function formatListItem(item) {
+      if (!item) return '';
+      return item.toString().replace(/\n/g, '<br>').trim();
+    }
+
+    // Helper function to format numbers
+    function formatNumber(num) {
+      return new Intl.NumberFormat().format(num);
+    }
+
+    function analyzeAnother() {
+      localStorage.removeItem('analysisData');
+      window.location.href = 'start.html';
+    }
+
+    function showError(message) {
+      const errorElement = document.getElementById('errorMessage');
+      const errorText = document.getElementById('errorText');
+      errorText.textContent = message;
+      errorElement.style.display = 'block';
+    }
+  </script>
+</body>
+</html>

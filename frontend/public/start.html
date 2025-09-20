@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Upload Legal Documents</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Open+Sans:wght@400;500;600&display=swap');
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body, html {
+    height: 100%;
+    font-family: 'Open Sans', sans-serif;
+    background: linear-gradient(135deg, #1a2035, #2a2f4a, #3a3f5b);
+    color: #f2f4f7;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Animated background elements */
+  .bg-shapes {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+  }
+
+  .shape {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.1;
+    animation: float 15s infinite linear;
+  }
+
+  .shape-1 {
+    width: 300px;
+    height: 300px;
+    background: linear-gradient(45deg, #06b6d4, #3b82f6);
+    top: -150px;
+    left: -150px;
+    animation-delay: 0s;
+  }
+
+  .shape-2 {
+    width: 200px;
+    height: 200px;
+    background: linear-gradient(45deg, #3b82f6, #8b5cf6);
+    bottom: -100px;
+    right: 10%;
+    animation-delay: -5s;
+  }
+
+  .shape-3 {
+    width: 150px;
+    height: 150px;
+    background: linear-gradient(45deg, #8b5cf6, #ec4899);
+    top: 20%;
+    right: -75px;
+    animation-delay: -10s;
+  }
+
+  @keyframes float {
+    0% {
+      transform: translate(0, 0) rotate(0deg);
+    }
+    50% {
+      transform: translate(10px, 10px) rotate(180deg);
+    }
+    100% {
+      transform: translate(0, 0) rotate(360deg);
+    }
+  }
+
+  .container {
+    background: rgba(28, 30, 44, 0.85);
+    backdrop-filter: blur(10px);
+    max-width: 650px;
+    border-radius: 24px;
+    box-shadow: 0 20px 50px rgba(12, 15, 37, 0.7);
+    padding: 50px 40px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    z-index: 1;
+    animation: containerFadeIn 1s ease-out;
+  }
+
+  .container::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
+    transform: rotate(30deg);
+    z-index: -1;
+  }
+
+  @keyframes containerFadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+    font-size: 2.8rem;
+    margin-bottom: 30px;
+    background: linear-gradient(90deg, #56ccf2, #3b82f6, #9b87f5);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    letter-spacing: 0.03em;
+    line-height: 1.2;
+    position: relative;
+    display: inline-block;
+  }
+
+  h1::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 25%;
+    width: 50%;
+    height: 4px;
+    background: linear-gradient(90deg, transparent, #56ccf2, transparent);
+    border-radius: 2px;
+  }
+
+  .upload-area {
+    border: 2px dashed rgba(86, 204, 242, 0.5);
+    border-radius: 16px;
+    padding: 40px 30px;
+    margin-bottom: 30px;
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .upload-area:hover {
+    border-color: #56ccf2;
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  .upload-icon {
+    font-size: 3.5rem;
+    color: #56ccf2;
+    margin-bottom: 20px;
+  }
+
+  label.upload-label {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #cbd5e1;
+    margin-bottom: 20px;
+    display: block;
+  }
+
+  input[type="file"] {
+    display: none;
+  }
+
+  .file-input-label {
+    display: inline-block;
+    background: linear-gradient(90deg, #06b6d4, #3b82f6);
+    padding: 14px 35px;
+    font-size: 1.1rem;
+    border-radius: 30px;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 15px;
+    box-shadow: 0 6px 20px rgba(6, 182, 212, 0.5);
+  }
+
+  .file-input-label:hover {
+    background: linear-gradient(90deg, #3b82f6, #06b6d4);
+    box-shadow: 0 8px 25px rgba(59, 130, 246, 0.6);
+    transform: translateY(-2px);
+  }
+
+  .file-name {
+    margin-top: 15px;
+    font-size: 0.95rem;
+    color: #94a3b8;
+    min-height: 20px;
+  }
+
+  .filetypes-info {
+    font-size: 0.95rem;
+    color: #94a3b8;
+    margin-top: 10px;
+  }
+
+  button.upload-btn {
+    background: linear-gradient(90deg, #06b6d4, #3b82f6);
+    padding: 18px 55px;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 40px;
+    color: white;
+    font-weight: 700;
+    box-shadow: 0 8px 25px rgba(6, 182, 212, 0.6);
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.4s ease;
+    letter-spacing: 0.05em;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+  }
+
+  button.upload-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: all 0.6s ease;
+    z-index: -1;
+  }
+
+  button.upload-btn:hover {
+    background: linear-gradient(90deg, #3b82f6, #06b6d4);
+    box-shadow: 0 12px 30px rgba(59, 130, 246, 0.7);
+    transform: translateY(-3px);
+  }
+
+  button.upload-btn:hover::before {
+    left: 100%;
+  }
+
+  button.upload-btn:active {
+    transform: translateY(1px);
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.6);
+  }
+
+  .back-btn {
+    margin-top: 25px;
+    display: inline-block;
+    color: #94a3b8;
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: color 0.3s ease;
+  }
+
+  .back-btn:hover {
+    color: #56ccf2;
+  }
+
+  .error-message {
+    background: rgba(239, 68, 68, 0.2);
+    border: 1px solid rgba(239, 68, 68, 0.5);
+    color: #fecaca;
+    padding: 12px 20px;
+    border-radius: 8px;
+    margin-top: 20px;
+    display: none;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .debug-info {
+    background: rgba(59, 130, 246, 0.1);
+    border: 1px solid rgba(59, 130, 246, 0.3);
+    color: #93c5fd;
+    padding: 10px 15px;
+    border-radius: 8px;
+    margin-top: 15px;
+    font-size: 0.85rem;
+    display: none;
+    text-align: left;
+  }
+
+  @media (max-width: 768px) {
+    .container {
+      padding: 40px 30px;
+      border-radius: 20px;
+    }
+
+    h1 {
+      font-size: 2.3rem;
+    }
+
+    .upload-area {
+      padding: 30px 20px;
+    }
+
+    .upload-icon {
+      font-size: 3rem;
+    }
+
+    label.upload-label {
+      font-size: 1.1rem;
+    }
+
+    button.upload-btn {
+      padding: 16px 45px;
+      font-size: 1.1rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .container {
+      padding: 30px 25px;
+    }
+
+    h1 {
+      font-size: 2rem;
+    }
+
+    .upload-area {
+      padding: 25px 15px;
+    }
+
+    .upload-icon {
+      font-size: 2.5rem;
+    }
+
+    label.upload-label {
+      font-size: 1rem;
+    }
+
+    .file-input-label {
+      padding: 12px 25px;
+      font-size: 1rem;
+    }
+
+    button.upload-btn {
+      padding: 14px 35px;
+      font-size: 1rem;
+    }
+  }
+</style>
+</head>
+<body>
+  <div class="bg-shapes">
+    <div class="shape shape-1"></div>
+    <div class="shape shape-2"></div>
+    <div class="shape shape-3"></div>
+  </div>
+  
+  <div class="container">
+    <h1>Upload Your Legal Document</h1>
+    
+    <form id="uploadForm" enctype="multipart/form-data">
+      <div class="upload-area">
+        <div class="upload-icon">
+          <i class="fas fa-file-upload"></i>
+        </div>
+        <label class="upload-label" for="fileUpload">Select your legal document to analyze</label>
+        
+        <input type="file" id="fileUpload" name="document" accept=".pdf,.doc,.docx,.txt" required />
+        <label for="fileUpload" class="file-input-label">
+          <i class="fas fa-folder-open"></i> Choose File
+        </label>
+        
+        <div class="file-name" id="fileName">No file selected</div>
+      </div>
+      
+      <button type="submit" class="upload-btn" id="analyzeBtn">
+        <i class="fas fa-cloud-upload-alt"></i> Upload & Analyze
+      </button>
+    </form>
+
+    <div class="error-message" id="errorMessage">
+      <i class="fas fa-exclamation-circle"></i>
+      <span id="errorText"></span>
+    </div>
+
+    <div class="debug-info" id="debugInfo">
+      <div><strong>Debug Information:</strong></div>
+      <div id="debugContent"></div>
+    </div>
+    
+    <div class="filetypes-info">
+      Supported formats: PDF, DOC, DOCX, TXT
+    </div>
+    
+    <a href="index.html" class="back-btn">
+      <i class="fas fa-arrow-left"></i> Back to Home
+    </a>
+  </div>
+
+  <script>
+    // File name display
+    document.getElementById('fileUpload').addEventListener('change', function(e) {
+      const fileName = e.target.files[0] ? e.target.files[0].name : 'No file selected';
+      document.getElementById('fileName').textContent = fileName;
+      hideError();
+      hideDebugInfo();
+    });
+
+    // Test backend connection on page load
+    document.addEventListener('DOMContentLoaded', function() {
+      testBackendConnection();
+    });
+
+    // Form submission handling
+    document.getElementById('uploadForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const fileInput = document.getElementById('fileUpload');
+      const analyzeBtn = document.getElementById('analyzeBtn');
+      
+      if (!fileInput.value) {
+        showError('Please select a file to upload.');
+        return;
+      }
+
+      // Validate file type
+      const allowedExtensions = /(\.pdf|\.doc|\.docx|\.txt)$/i;
+      if (!allowedExtensions.exec(fileInput.value)) {
+        showError('Invalid file type. Please upload PDF, DOC, DOCX, or TXT files only.');
+        fileInput.value = '';
+        document.getElementById('fileName').textContent = 'No file selected';
+        return;
+      }
+
+      // Show loading state
+      analyzeBtn.disabled = true;
+      analyzeBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Analyzing with AI (this may take 1-3 minutes)...';
+      hideError();
+      hideDebugInfo();
+
+      try {
+        const formData = new FormData();
+        formData.append('document', fileInput.files[0]);
+        
+        // Try to connect to backend with longer timeout for AI analysis
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 180000); // 3 minute timeout for AI analysis
+        
+        // Update progress message after 10 seconds
+        const progressTimeout1 = setTimeout(() => {
+          if (analyzeBtn.disabled) {
+            analyzeBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> AI is analyzing your document...';
+          }
+        }, 10000);
+        
+        // Update progress message after 30 seconds
+        const progressTimeout2 = setTimeout(() => {
+          if (analyzeBtn.disabled) {
+            analyzeBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Complex document - AI analysis in progress...';
+          }
+        }, 30000);
+        
+        // Send to backend for processing
+        const response = await fetch('http://localhost:5000/api/upload', {
+          method: 'POST',
+          body: formData,
+          signal: controller.signal
+        });
+        
+        clearTimeout(timeoutId);
+        clearTimeout(progressTimeout1);
+        clearTimeout(progressTimeout2);
+        
+        if (!response.ok) {
+          let errorMsg = `Server error: ${response.status} ${response.statusText}`;
+          try {
+            const errorData = await response.json();
+            errorMsg = errorData.error || errorMsg;
+          } catch (e) {
+            // If we can't parse JSON, use the status text
+          }
+          throw new Error(errorMsg);
+        }
+        
+        const data = await response.json();
+        
+        // Redirect to analysis page with the analysis data
+        localStorage.setItem('analysisData', JSON.stringify(data.analysis));
+        window.location.href = 'analysis.html';
+        
+      } catch (error) {
+        console.error('Upload error:', error);
+        
+        if (error.name === 'AbortError') {
+          showError('Connection timeout. The server is not responding.');
+          showDebugInfo('The backend server is not running or not accessible. Please make sure your Node.js server is running on http://localhost:5000');
+        } else {
+          showError(error.message || 'Error uploading file. Please try again.');
+          showDebugInfo('Failed to connect to backend server. Make sure your backend is running on http://localhost:5000');
+        }
+        
+        // Offer demo mode as fallback
+        showDemoOption();
+      } finally {
+        // Reset UI
+        analyzeBtn.disabled = false;
+        analyzeBtn.innerHTML = '<i class="fas fa-cloud-upload-alt"></i> Upload & Analyze';
+      }
+    });
+
+    // Test backend connection
+    async function testBackendConnection() {
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 3000); // 3 second timeout
+        
+        const response = await fetch('http://localhost:5000/api/test', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          signal: controller.signal
+        });
+        
+        clearTimeout(timeoutId);
+        
+        if (response.ok) {
+          console.log('Backend connection successful');
+          hideDebugInfo();
+        } else {
+          console.warn('Backend responded with error:', response.status);
+          showDebugInfo('Backend is running but responded with an error. Check your server logs.');
+        }
+      } catch (error) {
+        if (error.name === 'AbortError') {
+          showDebugInfo('Backend server is not responding. It may not be running.');
+        } else {
+          console.error('Backend connection failed:', error);
+          showDebugInfo('Cannot connect to backend server. Make sure your Node.js server is running on http://localhost:5000');
+        }
+      }
+    }
+
+    function showDemoOption() {
+      const debugInfo = document.getElementById('debugInfo');
+      const demoButton = document.createElement('button');
+      demoButton.innerHTML = '<i class="fas fa-play-circle"></i> Try Demo with Sample Data';
+      demoButton.style.background = 'linear-gradient(90deg, #10b981, #059669)';
+      demoButton.style.color = 'white';
+      demoButton.style.border = 'none';
+      demoButton.style.padding = '10px 15px';
+      demoButton.style.borderRadius = '5px';
+      demoButton.style.marginTop = '10px';
+      demoButton.style.cursor = 'pointer';
+      demoButton.onclick = useDemoData;
+      
+      debugInfo.appendChild(demoButton);
+    }
+
+    function useDemoData() {
+      // Load demo data
+      const demoAnalysis = {
+        documentType: 'Contract Agreement',
+        summary: 'This is a sample contract between two parties outlining terms and conditions for services rendered. The agreement specifies deliverables, payment terms, and confidentiality clauses.',
+        keyPoints: [
+          'Contract duration: 12 months with automatic renewal',
+          'Payment terms: Net 30 days from invoice date',
+          'Termination clause: 30 days written notice required by either party',
+          'Confidentiality: Both parties agree to keep terms confidential'
+        ],
+        parties: [
+          'ABC Company (Service Provider)',
+          'XYZ Corporation (Client)'
+        ],
+        importantDates: [
+          '2023-01-15: Contract effective date',
+          '2023-12-15: Contract expiration date',
+          '2023-02-01: First deliverable due',
+          '2023-06-30: Mid-term review date'
+        ],
+        paymentTerms: [
+          'Monthly payment: $5,000 per month',
+          'Late payment fee: 1.5% interest per month on overdue amounts',
+          'Expense reimbursement: Pre-approved expenses will be reimbursed'
+        ],
+        risks: [
+          'No penalty clause for late delivery of services',
+          'Vague termination conditions could lead to disputes',
+          'Intellectual property rights not clearly defined'
+        ],
+        recommendations: [
+          'Clarify delivery timelines and add specific milestones',
+          'Add explicit penalty clauses for non-performance',
+          'Define intellectual property ownership clearly',
+          'Include a dispute resolution process'
+        ]
+      };
+      
+      localStorage.setItem('analysisData', JSON.stringify(demoAnalysis));
+      window.location.href = 'analysis.html';
+    }
+
+    function showError(message) {
+      const errorElement = document.getElementById('errorMessage');
+      const errorText = document.getElementById('errorText');
+      errorText.textContent = message;
+      errorElement.style.display = 'flex';
+    }
+
+    function hideError() {
+      const errorElement = document.getElementById('errorMessage');
+      errorElement.style.display = 'none';
+    }
+
+    function showDebugInfo(message) {
+      const debugElement = document.getElementById('debugInfo');
+      const debugContent = document.getElementById('debugContent');
+      debugContent.textContent = message;
+      debugElement.style.display = 'block';
+    }
+
+    function hideDebugInfo() {
+      const debugElement = document.getElementById('debugInfo');
+      debugElement.style.display = 'none';
+    }
+  </script>
+</body>
+</html>

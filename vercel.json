@@ -1,19 +1,24 @@
 {
   "version": 2,
+  "functions": {
+    "server.js": {
+      "maxDuration": 30
+    }
+  },
   "builds": [
     {
-      "src": "frontend/public/**",
-      "use": "@vercel/static"
+      "src": "server.js",
+      "use": "@vercel/node"
     }
   ],
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "https://your-railway-backend.railway.app/api/$1"
+      "dest": "/server.js"
     },
     {
       "src": "/(.*)",
-      "dest": "/frontend/public/$1"
+      "dest": "/server.js"
     }
   ]
 }

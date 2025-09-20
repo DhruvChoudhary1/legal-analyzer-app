@@ -1,0 +1,24 @@
+{
+  "name": "legal-analyzer-backend",
+  "version": "1.0.0",
+  "description": "Backend for Legal Document Analyzer",
+  "main": "static-server.js",
+  "scripts": {
+    "start": "node static-server.js",
+    "build": "npm install"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.6.1",
+    "express": "^4.21.2",
+    "form-data": "^4.0.4",
+    "multer": "^1.4.5-lts.1",
+    "node-fetch": "^3.3.2"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "keywords": ["legal", "ai", "backend"],
+  "author": "Dhruv Choudhary",
+  "license": "MIT"
+}

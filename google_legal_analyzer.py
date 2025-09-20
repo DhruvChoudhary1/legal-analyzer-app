@@ -5,7 +5,7 @@ from pathlib import Path
 from typing import Dict, Any, Optional
 import PyPDF2
 import docx
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 from dotenv import load_dotenv
 
@@ -632,7 +632,22 @@ FINAL VALIDATION: Ensure your analysis would help someone completely unfamiliar 
 
 # Flask API for integration with Node.js frontend
 app = Flask(__name__)
-CORS(app, origins=["http://localhost:5000", "http://127.0.0.1:5000"])
+CORS(app)
+
+# Serve static files from frontend/public
+@app.route('/')
+def serve_index():
+    """Serve the main index page"""
+    return send_from_directory('frontend/public', 'index.html')
+
+@app.route('/<path:filename>')
+def serve_static(filename):
+    """Serve static files from frontend/public"""
+    try:
+        return send_from_directory('frontend/public', filename)
+    except:
+        # If file not found, serve index.html for SPA behavior
+        return send_from_directory('frontend/public', 'index.html')
 
 # Initialize the analyzer
 try:

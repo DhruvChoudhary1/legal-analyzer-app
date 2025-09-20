@@ -1,3 +1,6 @@
+[providers]
+python = "3.11"
+
 [phases.build]
 cmds = ["pip install -r requirements.txt"]
 

@@ -1,8 +1,0 @@
-build:
-  commands:
-    - npm install
-    - cd backend && npm install  
-    - pip install -r requirements.txt
-
-deploy:
-  startCommand: node railway-server.js

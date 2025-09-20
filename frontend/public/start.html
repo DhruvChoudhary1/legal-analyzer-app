@@ -469,9 +469,9 @@
             analyzeBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Complex document - AI analysis in progress...';
           }
         }, 30000);
-        
-        // Send to backend for processing
-        const response = await fetch('http://localhost:5000/api/upload', {
+          // Send to backend for processing
+        const baseURL = window.location.origin; // Use current domain
+        const response = await fetch(`${baseURL}/api/upload`, {
           method: 'POST',
           body: formData,
           signal: controller.signal
@@ -516,15 +516,14 @@
         analyzeBtn.disabled = false;
         analyzeBtn.innerHTML = '<i class="fas fa-cloud-upload-alt"></i> Upload & Analyze';
       }
-    });
-
-    // Test backend connection
+    });    // Test backend connection
     async function testBackendConnection() {
       try {
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), 3000); // 3 second timeout
         
-        const response = await fetch('http://localhost:5000/api/test', {
+        const baseURL = window.location.origin; // Use current domain
+        const response = await fetch(`${baseURL}/api/test`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json'

@@ -1,0 +1,8 @@
+build:
+  commands:
+    - npm install
+    - cd backend && npm install  
+    - pip install -r requirements.txt
+
+deploy:
+  startCommand: cd backend && node static-server.js

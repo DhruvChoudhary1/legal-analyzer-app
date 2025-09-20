@@ -2,9 +2,8 @@
   "name": "legal-analyzer-app",
   "version": "1.0.0",
   "description": "AI-powered legal document analyzer using Google Cloud Gemini",
-  "main": "app.js",
-  "scripts": {
-    "start": "node app.js",
+  "main": "app.js",  "scripts": {
+    "start": "bash start.sh",
     "dev": "node app.js",
     "backend-only": "cd backend && node static-server.js",
     "ai-only": "python google_legal_analyzer.py"
